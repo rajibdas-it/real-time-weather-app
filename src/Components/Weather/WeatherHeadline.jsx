@@ -2,10 +2,12 @@ import pin from "../../assets/pin.svg";
 import cloud from "../../assets/cloud.svg";
 import { useContext } from "react";
 import { WeatherContext } from "../../context";
+import { getFormattedDate } from "../../utils/date-utils";
 
 const WeatherHeadline = () => {
-  const { loading, weatherData, error } = useContext(WeatherContext);
-  console.log(loading, weatherData, error);
+  const { weatherData } = useContext(WeatherContext);
+  console.log(weatherData);
+
   return (
     <div>
       <div className="max-md:flex items-center justify-between md:-mt-10">
@@ -20,7 +22,10 @@ const WeatherHeadline = () => {
           </div>
         </div>
       </div>
-      <p className="text-sm lg:text-lg">06:09 - Sunday, 9 Dec ‘23</p>
+      <p className="text-sm lg:text-lg">
+        {getFormattedDate(weatherData.time, "time", false)}-
+        {getFormattedDate(weatherData.time, "date", false)}
+      </p>
     </div>
   );
 };
