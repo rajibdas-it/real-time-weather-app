@@ -1,0 +1,79 @@
+/* eslint-disable no-unused-vars */
+import { useCallback, useContext, useEffect, useState } from "react";
+import searchImg from "../../assets/search.svg";
+import { LocationContext } from "../../context";
+import { getLocationByName } from "../../data/locationData";
+import useDebounce from "../../hooks/useDebounce";
+import useSearchByLocaltion from "../../hooks/useSearchByLocaltion";
+const Search = () => {
+  // const { setSearchLocation } = useContext(LocationContext);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // const [searchingData, setSearchingData] = useState("");
+
+  // console.log(searchTerm);
+  // console.log(searchingData);
+
+  // const doSearch = useDebounce((term) => {
+
+  //   setSearchLocation({ ...searchingData });
+  // }, 500);
+
+  const debounce = (fn, delay) => {
+    let timeOutId;
+    return (...args) => {
+      console.log(...args);
+      if (timeOutId) {
+        clearTimeout(timeOutId);
+      }
+      timeOutId = setTimeout(() => {
+        fn(...args);
+      }, delay);
+    };
+  };
+
+  const debounceResult = debounce((value) => {
+    console.log(value);
+  }, 1000);
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    const value = e.target.value;
+    setSearchTerm(value);
+    debounceResult(value);
+    // doSearch(value);
+  };
+
+  // const debounceResult = useCallback(debounce(handleChange, 1000), []);
+
+  console.log(searchTerm);
+
+  // useEffect(() => {
+  //   fetch(
+  //     `https://api.openweathermap.org/data/2.5/weather?q=${searchTerm}&APPID=${
+  //       import.meta.env.VITE_WEATHER_API_KEY
+  //     }`
+  //   )
+  //     .then((res) => res.json())
+  //     .then((data) => console.log(data));
+  // }, [searchTerm]);
+
+  return (
+    <form>
+      <div className="flex items-center space-x-2 py-2 px-3 group focus-within:bg-black/30 transition-all border-b border-white/50 focus-within:border-b-0 focus-within:rounded-md">
+        <input
+          onChange={handleChange}
+          className="bg-transparent  placeholder:text-white text-white w-full text-xs md:text-base outline-none border-none"
+          type="search"
+          placeholder="Search Location"
+          required
+        />
+        <button type="submit">
+          <img src={searchImg} />
+        </button>
+      </div>
+    </form>
+  );
+};
+
+export default Search;
