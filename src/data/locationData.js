@@ -36,8 +36,9 @@ const getLocations = () => {
 }
 
 const getLocationByName = (location) => {
+    // console.log(location);
     if (!location) return null
-    const filted = data.find((item) => item.location === location)
+    const filted = data.filter((item) => item.location.toLowerCase() === location.toLowerCase())
     if (filted.length > 0) {
         return filted[0]
     } else {
@@ -49,5 +50,7 @@ const getLocationByName = (location) => {
         return defaultLocation
     }
 }
+
+// getLocationByName('london');
 
 export { getLocations, getLocationByName }

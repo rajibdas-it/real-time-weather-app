@@ -1,8 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import { useState, useEffect } from "react"
+
+import { useState, useEffect, useContext } from "react"
+import { LocationContext } from "../context"
 
 const useWeather = () => {
+
     const [weatherData, setWeatherData] = useState({
         location: "",
         climate: "",
@@ -23,6 +26,10 @@ const useWeather = () => {
     })
 
     const [error, setError] = useState(null)
+
+    const { searchLocation } = useContext(LocationContext);
+    // console.log(searchLocation);
+
 
     const fetchWeatherData = async (latitude, longitude) => {
         try {
@@ -80,11 +87,17 @@ const useWeather = () => {
         //     fetchWeatherData(position.coords.latitude, position.coords.longitude)
         // })
 
-        navigator.geolocation.getCurrentPosition((position) => {
-            fetchWeatherData(position.coords.latitude, position.coords.longitude)
-        })
+        if (searchLocation.latitude && searchLocation.longitude) {
+            fetchWeatherData(searchLocation.latitude, searchLocation.longitude)
+        } else {
+            navigator.geolocation.getCurrentPosition((position) => {
+                fetchWeatherData(position.coords.latitude, position.coords.longitude)
+            })
+        }
 
-    }, [])
+
+
+    }, [searchLocation.latitude, searchLocation.longitude])
 
     return {
         weatherData,
