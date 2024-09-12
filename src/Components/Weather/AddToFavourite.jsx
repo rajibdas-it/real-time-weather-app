@@ -1,21 +1,31 @@
-import { useContext, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useContext, useEffect, useState } from "react";
 import favImg from "../../assets/heart.svg";
 import redHeart from "../../assets/heart-red.svg";
 import { FavouriteContext, WeatherContext } from "../../context";
 const AddToFavourite = () => {
   const { weatherData } = useContext(WeatherContext);
   const { location, latitude, longitude } = weatherData;
-  console.log(location, latitude, longitude);
+  // console.log(location, latitude, longitude);
   const { favs, addToFavs, removeFromFavs } = useContext(FavouriteContext);
+  // console.log(favs);
   const [isFav, setIsFav] = useState(false);
 
+  useEffect(() => {
+    const found = favs.find((fav) => fav.location === location);
+    if (found) {
+      setIsFav(found);
+    }
+  }, []);
+
   const handleFavs = () => {
+    const found = favs.find((fav) => fav.location === location);
+    if (!found) {
+      addToFavs(latitude, longitude, location);
+    } else {
+      removeFromFavs(location);
+    }
     setIsFav(!isFav);
-    // if (isFav) {
-    //   addToFavs(location, latitude, longitude);
-    // } else {
-    //   removeFromFavs(location);
-    // }
   };
 
   return (
@@ -25,8 +35,8 @@ const AddToFavourite = () => {
           onClick={handleFavs}
           className="text-sm md:text-base inline-flex items-center space-x-2 px-3 py-1.5 rounded-md bg-[#C5C5C54D]"
         >
-          <span>{isFav ? "Add To Favourite" : "Remove From Favourite"}</span>
-          <img src={isFav ? favImg : redHeart} alt="" />
+          <span>Add To Favourite</span>
+          <img src={isFav ? redHeart : favImg} alt="" />
         </button>
       </div>
     </div>

@@ -3,15 +3,18 @@ import { FavouriteContext } from "../context";
 import useLocalStorage from "../hooks/useLocalStorage";
 
 const FavouriteProvider = ({ children }) => {
-  console.log(useLocalStorage("favs", []));
+  // console.log(useLocalStorage("favs", []));
   const [favs, setFavs] = useLocalStorage("favs", []);
 
   const addToFavs = (latitude, longitude, location) => {
-    setFavs(...favs, {
-      latitude,
-      longitude,
-      location,
-    });
+    setFavs([
+      ...favs,
+      {
+        latitude,
+        longitude,
+        location,
+      },
+    ]);
   };
 
   const removeFromFavs = (location) => {
