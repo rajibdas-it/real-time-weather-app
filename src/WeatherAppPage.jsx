@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState } from "react";
+import { WeatherContext } from "./context";
+import Loading from "./Components/Loading";
+import { generateBackgroundImage } from "./utils/generateBackgroundImg";
 import Header from "./Components/Header/Header";
 import WeatherBoard from "./Components/Weather/WeatherBoard";
-import { WeatherContext } from "./context";
-import { generateBackgroundImage } from "./utils/generateBackgroundImg";
-import Loading from "./Components/Loading";
 
-const Page = () => {
+const WeatherAppPage = () => {
   const { weatherData, loading } = useContext(WeatherContext);
   const [climateImage, setClimateImage] = useState("");
 
@@ -35,4 +35,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default WeatherAppPage;
