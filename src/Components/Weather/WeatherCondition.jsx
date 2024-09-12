@@ -18,7 +18,9 @@ const WeatherCondition = () => {
 
   return (
     <div>
-      <p className="text-sm lg:text-lg font-bold uppercase mb-8">{climate}</p>
+      <p className="text-sm lg:text-lg font-bold uppercase mb-8">
+        The Climate is <u>{climate}</u>
+      </p>
       <ul className="space-y-6 lg:space-y-6">
         <li className="text-sm lg:text-lg flex items-center justify-between space-x-4">
           <span>Temp max</span>
